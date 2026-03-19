@@ -1,1 +1,1 @@
-Frontend worktree - author: ikromovich3000@gmail.com
+Backend worktree - author: negrribakov@gmail.com
