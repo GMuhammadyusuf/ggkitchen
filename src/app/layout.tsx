@@ -8,8 +8,8 @@ import { MainLayout } from '@/components/layout/MainLayout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Campus Food',
-  description: 'Campus food ordering system',
+  title: 'GGKitchen',
+  description: 'GGKitchen food ordering system',
 };
 
 export default function RootLayout({

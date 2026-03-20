@@ -6,24 +6,31 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useState } from 'react';
 
 export default function LoginPage() {
     const router = useRouter();
     const { t } = useLanguage();
+    const [loading, setLoading] = useState(false);
 
     const onFinish = async (values: any) => {
-        const result = await signIn('credentials', {
-            redirect: false,
-            email: values.email,
-            password: values.password,
-        });
+        setLoading(true);
+        try {
+            const result = await signIn('credentials', {
+                redirect: false,
+                email: values.email,
+                password: values.password,
+            });
 
-        if (result?.error) {
-            message.error(result.error);
-        } else {
-            message.success(t('auth.welcome_msg', 'Welcome back!'));
-            router.push('/');
-            router.refresh();
+            if (result?.error) {
+                message.error(result.error);
+            } else {
+                message.success(t('auth.welcome_msg', 'Welcome back!'));
+                router.push('/');
+                router.refresh();
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -31,9 +38,9 @@ export default function LoginPage() {
         <div className="auth-wrapper">
             <div className="auth-card">
                 <div className="auth-header">
-                    <div className="auth-logo">🍔</div>
+                    <div className="auth-logo">🍳</div>
                     <div className="auth-title">{t('auth.welcome_back', 'Welcome Back')}</div>
-                    <div className="auth-subtitle">{t('auth.sign_in_subtitle', 'Sign in to your CampusFood account')}</div>
+                    <div className="auth-subtitle">{t('auth.sign_in_subtitle', 'Sign in to your GGKitchen account')}</div>
                 </div>
                 <Form
                     name="login"
@@ -71,6 +78,7 @@ export default function LoginPage() {
                             type="primary"
                             htmlType="submit"
                             block
+                            loading={loading}
                             style={{ height: 48, borderRadius: 12, fontWeight: 600, fontSize: 16 }}
                         >
                             {t('auth.sign_in', 'Sign In')}

@@ -5,19 +5,24 @@ import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const { Option } = Select;
 
 export default function RegisterPage() {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
     const onFinish = async (values: any) => {
+        setLoading(true);
         try {
             await axios.post('/api/register', values);
             message.success('Account created! Please sign in.');
             router.push('/auth/login');
         } catch (error: any) {
             message.error(error.response?.data?.error || 'Registration failed');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -25,9 +30,9 @@ export default function RegisterPage() {
         <div className="auth-wrapper">
             <div className="auth-card" style={{ maxWidth: 460 }}>
                 <div className="auth-header">
-                    <div className="auth-logo">🍔</div>
+                    <div className="auth-logo">🍳</div>
                     <div className="auth-title">Create Account</div>
-                    <div className="auth-subtitle">Join CampusFood and start ordering</div>
+                    <div className="auth-subtitle">Join GGKitchen and start ordering</div>
                 </div>
                 <Form
                     name="register"
@@ -88,6 +93,7 @@ export default function RegisterPage() {
                             type="primary"
                             htmlType="submit"
                             block
+                            loading={loading}
                             style={{ height: 48, borderRadius: 12, fontWeight: 600, fontSize: 16 }}
                         >
                             Create Account

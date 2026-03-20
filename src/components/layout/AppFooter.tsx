@@ -10,7 +10,7 @@ export function AppFooter() {
         <footer className="app-footer">
             <div className="footer-content">
                 <div className="footer-brand">
-                    <h3>🍔 CampusFood</h3>
+                    <h3>🍳 GGKitchen</h3>
                     <p>
                         {t('footer.description', 'Fresh and delicious food delivered right to your campus room. Order in seconds, get it in minutes.')}
                     </p>
@@ -35,7 +35,7 @@ export function AppFooter() {
                 </div>
             </div>
             <div className="footer-bottom">
-                © {new Date().getFullYear()} CampusFood. {t('footer.rights', 'All rights reserved.')}
+                © {new Date().getFullYear()} GGKitchen. {t('footer.rights', 'All rights reserved.')}
             </div>
         </footer>
     );

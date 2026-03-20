@@ -23,7 +23,7 @@ async function main() {
     const admin = await prisma.user.create({
         data: {
             name: 'Admin User',
-            email: 'admin@campusfood.com',
+            email: 'admin@ggkitchen.uz',
             password: hashedPassword,
             role: 'ADMIN',
         },
@@ -32,7 +32,7 @@ async function main() {
     const courier = await prisma.user.create({
         data: {
             name: 'John Courier',
-            email: 'courier@campusfood.com',
+            email: 'courier@ggkitchen.uz',
             password: hashedPassword,
             role: 'COURIER',
         },
@@ -99,12 +99,12 @@ async function main() {
         { key: 'header.fresh_fast', en: 'Fresh & Fast', uz: 'Toza & Tez' },
 
         // Home page
-        { key: 'home.hero_title', en: 'Delicious Campus Food,\nDelivered to Your Door 🍕', uz: 'Mazali Kampus Ovqati,\nEshigingizga Yetkaziladi 🍕' },
-        { key: 'home.hero_subtitle', en: 'Fresh meals from our campus kitchen. Browse the menu, place your order, and get it delivered in minutes — right to your building.', uz: 'Kampus oshxonamizdan yangi taomlar. Menyuni ko\'ring, buyurtma bering va bir necha daqiqada — to\'g\'ri binongizga yetkazib beramiz.' },
+        { key: 'home.hero_title', en: 'Delicious GGKitchen Food,\nDelivered to Your Door 🍕', uz: 'Mazali GGKitchen Ovqati,\nEshigingizga Yetkaziladi 🍕' },
+        { key: 'home.hero_subtitle', en: 'Fresh meals from our kitchen. Browse the menu, place your order, and get it delivered in minutes.', uz: 'Oshxonamizdan yangi taomlar. Menyuni ko\'ring, buyurtma bering va bir necha daqiqada yetkazib beramiz.' },
         { key: 'home.browse_menu', en: 'Browse Menu', uz: 'Menyuni ko\'rish' },
         { key: 'home.get_started', en: 'Get Started', uz: 'Boshlash' },
-        { key: 'home.why_title', en: 'Why CampusFood?', uz: 'Nima uchun CampusFood?' },
-        { key: 'home.why_subtitle', en: 'The easiest way to get food on campus', uz: 'Kampusda ovqat olishning eng oson yo\'li' },
+        { key: 'home.why_title', en: 'Why GGKitchen?', uz: 'Nima uchun GGKitchen?' },
+        { key: 'home.why_subtitle', en: 'The easiest way to get food', uz: 'Ovqat olishning eng oson yo\'li' },
         { key: 'home.feature_fast', en: 'Lightning Fast', uz: 'Chaqmoq tezligida' },
         { key: 'home.feature_fast_desc', en: 'Get your food delivered in under 20 minutes to any building on campus.', uz: 'Ovqatingizni kampusdagi istalgan binoga 20 daqiqadan kamroq vaqtda yetkazib oling.' },
         { key: 'home.feature_easy', en: 'Easy Ordering', uz: 'Oson buyurtma' },
@@ -177,7 +177,7 @@ async function main() {
 
         // Auth pages
         { key: 'auth.welcome_back', en: 'Welcome Back', uz: 'Xush kelibsiz' },
-        { key: 'auth.sign_in_subtitle', en: 'Sign in to your CampusFood account', uz: 'CampusFood hisobingizga kiring' },
+        { key: 'auth.sign_in_subtitle', en: 'Sign in to your GGKitchen account', uz: 'GGKitchen hisobingizga kiring' },
         { key: 'auth.email_placeholder', en: 'Email address', uz: 'Elektron pochta' },
         { key: 'auth.password_placeholder', en: 'Password', uz: 'Parol' },
         { key: 'auth.sign_in', en: 'Sign In', uz: 'Kirish' },
