@@ -76,6 +76,7 @@ export default function AdminPage() {
     const [isTranslationModalOpen, setIsTranslationModalOpen] = useState(false);
     const [editingTranslation, setEditingTranslation] = useState<any>(null);
     const [translationForm] = Form.useForm();
+    const [translationSearch, setTranslationSearch] = useState('');
 
     // User modal state
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -472,15 +473,30 @@ export default function AdminPage() {
                     </>
                 );
             case 'translations':
+                const filteredTranslations = translationSearch
+                    ? translations?.filter((t: any) =>
+                        t.key.toLowerCase().includes(translationSearch.toLowerCase()) ||
+                        t.en.toLowerCase().includes(translationSearch.toLowerCase()) ||
+                        t.uz.toLowerCase().includes(translationSearch.toLowerCase())
+                    )
+                    : translations;
                 return (
                     <>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12 }}>
+                            <Input.Search
+                                placeholder="Search by key, English or Uzbek..."
+                                allowClear
+                                value={translationSearch}
+                                onChange={(e) => setTranslationSearch(e.target.value)}
+                                onSearch={(val) => setTranslationSearch(val)}
+                                style={{ borderRadius: 10, maxWidth: 400 }}
+                            />
                             <Button type="primary" icon={<PlusOutlined />} onClick={() => { setEditingTranslation(null); translationForm.resetFields(); setIsTranslationModalOpen(true); }} style={{ borderRadius: 10 }}>
                                 Add Translation
                             </Button>
                         </div>
                         <Table
-                            dataSource={translations}
+                            dataSource={filteredTranslations}
                             columns={translationColumns}
                             rowKey="id"
                             loading={translationsLoading}

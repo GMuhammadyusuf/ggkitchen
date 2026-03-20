@@ -52,6 +52,7 @@ export function AppHeader() {
     const [bannerVisible, setBannerVisible] = useState(true);
     const [currentPromo, setCurrentPromo] = useState(0);
     const [scrolled, setScrolled] = useState(false);
+    const [signingOut, setSigningOut] = useState(false);
     const searchInputRef = useRef<any>(null);
 
     const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -135,10 +136,14 @@ export function AppHeader() {
         { type: 'divider' as const },
         {
             key: 'logout',
-            icon: <LogoutOutlined />,
-            label: t('header.sign_out', 'Sign Out'),
+            icon: signingOut ? undefined : <LogoutOutlined />,
+            label: signingOut ? 'Signing out...' : t('header.sign_out', 'Sign Out'),
             danger: true,
-            onClick: () => signOut(),
+            disabled: signingOut,
+            onClick: async () => {
+                setSigningOut(true);
+                await signOut();
+            },
         },
     ];
 
@@ -167,10 +172,10 @@ export function AppHeader() {
                     {/* Logo */}
                     <Link href="/" className="header-logo">
                         <div className="header-logo-mark">
-                            <span>C</span>
+                            <span>G</span>
                         </div>
                         <div className="header-logo-text">
-                            <span className="header-logo-name">Campus<span className="header-logo-accent">Food</span></span>
+                            <span className="header-logo-name">GG<span className="header-logo-accent">Kitchen</span></span>
                             <span className="header-logo-tagline">{t('header.fresh_fast', 'Fresh & Fast')}</span>
                         </div>
                     </Link>
@@ -296,7 +301,7 @@ export function AppHeader() {
             >
                 {/* Drawer Header */}
                 <div className="drawer-header">
-                    <div className="drawer-logo-mark">C</div>
+                    <div className="drawer-logo-mark">G</div>
                     <div>
                         {session ? (
                             <>
@@ -361,10 +366,12 @@ export function AppHeader() {
                                 style={{ borderRadius: 12, height: 44, marginBottom: 8 }}>
                                 {t('header.my_profile', 'My Profile')}
                             </Button>
-                            <Button block danger icon={<LogoutOutlined />} onClick={() => signOut()}
-                                style={{ borderRadius: 12, height: 44 }}>
-                                {t('header.sign_out', 'Sign Out')}
-                            </Button>
+                            <Button block danger icon={signingOut ? undefined : <LogoutOutlined />} onClick={async () => { setSigningOut(true); await signOut(); }}
+                loading={signingOut}
+                disabled={signingOut}
+                style={{ borderRadius: 12, height: 44 }}>
+                {t('header.sign_out', 'Sign Out')}
+            </Button>
                         </>
                     ) : (
                         <Button block type="primary" onClick={() => { router.push('/auth/login'); setDrawerOpen(false); }}

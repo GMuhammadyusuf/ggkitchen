@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface LogoutButtonProps {
   redirectUrl?: string;
@@ -10,9 +10,10 @@ interface LogoutButtonProps {
 
 export default function LogoutButton({ redirectUrl = '/', children }: LogoutButtonProps) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
-    // signOut without redirect to handle manually
+    setLoading(true);
     await signOut({ redirect: false });
     router.replace(redirectUrl);
   };
@@ -21,6 +22,8 @@ export default function LogoutButton({ redirectUrl = '/', children }: LogoutButt
     <Button
       type="default"
       onClick={handleLogout}
+      loading={loading}
+      disabled={loading}
       style={{ borderRadius: 8, marginLeft: 12 }}
     >
       {children || 'Logout'}
