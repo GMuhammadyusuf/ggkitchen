@@ -1,8 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { put } from '@vercel/blob';
 
 export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
@@ -29,24 +28,17 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'File too large. Max size: 5MB' }, { status: 400 });
         }
 
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
         // Generate unique filename
         const ext = file.name.split('.').pop() || 'jpg';
-        const filename = `product_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+        const filename = `products/product_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
 
-        // Ensure uploads directory exists
-        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-        await mkdir(uploadsDir, { recursive: true });
+        // Upload to Vercel Blob
+        const blob = await put(filename, file, {
+            access: 'public',
+            contentType: file.type,
+        });
 
-        // Write file
-        const filepath = path.join(uploadsDir, filename);
-        await writeFile(filepath, buffer);
-
-        // Return the public URL
-        const url = `/uploads/${filename}`;
-        return NextResponse.json({ url, filename });
+        return NextResponse.json({ url: blob.url, filename: blob.pathname });
     } catch (error) {
         console.error('Upload error:', error);
         return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
