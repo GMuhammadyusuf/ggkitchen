@@ -39,8 +39,12 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({ url: blob.url, filename: blob.pathname });
-    } catch (error) {
-        console.error('Upload error:', error);
-        return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+    } catch (error: any) {
+        console.error('FULL UPLOAD ERROR:', error);
+        return NextResponse.json({ 
+            error: 'Upload failed', 
+            details: error.message,
+            token_present: !!process.env.BLOB_READ_WRITE_TOKEN 
+        }, { status: 500 });
     }
 }
