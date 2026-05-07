@@ -13,6 +13,13 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData();
         const file = formData.get('file') as File;
 
+        console.log('UPLOAD ATTEMPT:', {
+            name: file?.name,
+            size: file?.size,
+            type: file?.type,
+            token_exists: !!process.env.BLOB_READ_WRITE_TOKEN
+        });
+
         if (!file) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
@@ -35,16 +42,25 @@ export async function POST(req: NextRequest) {
         // Upload to Vercel Blob
         const blob = await put(filename, file, {
             access: 'public',
+            token: process.env.BLOB_READ_WRITE_TOKEN,
             contentType: file.type,
         });
 
         return NextResponse.json({ url: blob.url, filename: blob.pathname });
     } catch (error: any) {
         console.error('FULL UPLOAD ERROR:', error);
+        
+        // Debug info (don't expose full token in production, but okay for debugging here)
+        const token = process.env.BLOB_READ_WRITE_TOKEN;
+        const tokenInfo = token 
+            ? `Present (starts with ${token.substring(0, 15)}...)` 
+            : 'Missing';
+
         return NextResponse.json({ 
             error: 'Upload failed', 
             details: error.message,
-            token_present: !!process.env.BLOB_READ_WRITE_TOKEN 
+            stack: error.stack,
+            token_status: tokenInfo
         }, { status: 500 });
     }
 }
