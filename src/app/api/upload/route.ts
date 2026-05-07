@@ -48,19 +48,18 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ url: blob.url, filename: blob.pathname });
     } catch (error: any) {
-        console.error('FULL UPLOAD ERROR:', error);
+        console.error('SERVER-SIDE UPLOAD ERROR:', error);
         
-        // Debug info (don't expose full token in production, but okay for debugging here)
         const token = process.env.BLOB_READ_WRITE_TOKEN;
         const tokenInfo = token 
-            ? `Present (starts with ${token.substring(0, 15)}...)` 
-            : 'Missing';
+            ? `Present (length: ${token.length}, starts with ${token.substring(0, 10)}...)` 
+            : 'MISSING';
 
         return NextResponse.json({ 
-            error: 'Vercel Blob Error', 
-            details: error.message,
+            error: 'Vercel Blob Upload Failed', 
+            details: error.message || 'Unknown error',
             token_status: tokenInfo,
-            env: process.env.NODE_ENV
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         }, { status: 500 });
     }
 }
