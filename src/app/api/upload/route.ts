@@ -57,10 +57,10 @@ export async function POST(req: NextRequest) {
             : 'Missing';
 
         return NextResponse.json({ 
-            error: 'Upload failed', 
+            error: 'Vercel Blob Error', 
             details: error.message,
-            stack: error.stack,
-            token_status: tokenInfo
+            token_status: tokenInfo,
+            env: process.env.NODE_ENV
         }, { status: 500 });
     }
 }
