@@ -126,7 +126,11 @@ export default function AdminPage() {
     // ---- Product Handlers ----
     const handleProductSubmit = async (values: any) => {
         try {
-            const productData = { ...values, image: imageUrl || values.image };
+            const productData = {
+                ...values,
+                price: parseFloat(values.price),
+                image: imageUrl || values.image,
+            };
             if (editingProduct) {
                 await updateProduct({ id: editingProduct.id, ...productData });
                 message.success('Product updated!');
@@ -649,7 +653,7 @@ export default function AdminPage() {
                         <Input.TextArea rows={3} style={{ borderRadius: 10 }} />
                     </Form.Item>
                     <Form.Item name="price" label="Price (сўм)" rules={[{ required: true }]}>
-                        <Input type="number" step="100" suffix="сўм" style={{ borderRadius: 10 }} />
+                        <Input type="number" step="any" min="0" suffix="сўм" style={{ borderRadius: 10 }} />
                     </Form.Item>
                     <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
                         <Select style={{ borderRadius: 10 }}>

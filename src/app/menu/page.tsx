@@ -41,7 +41,7 @@ export default function MenuPage() {
             {/* Menu Hero */}
             <PageContainer>
                 <div className="hero" style={{ marginBottom: 0 }}>
-                    <h1>{t('menu.hero_title', 'What are you craving? 🍽️')}AAAAAAlmaz</h1>
+                    <h1>{t('menu.hero_title', 'What are you craving? 🍽️')}</h1>
                     <p>{t('menu.hero_subtitle', 'Browse our fresh menu and order your favorites.')}</p>
                     <div style={{ marginTop: 24, maxWidth: 480, position: 'relative', zIndex: 1 }}>
                         <Input
