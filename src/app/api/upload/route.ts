@@ -49,14 +49,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ url: blob.url, filename: blob.pathname });
     } catch (error: any) {
         console.error('SERVER-SIDE UPLOAD ERROR:', error);
-        
+
         const token = process.env.BLOB_READ_WRITE_TOKEN;
-        const tokenInfo = token 
-            ? `Present (length: ${token.length}, starts with ${token.substring(0, 10)}...)` 
+        const tokenInfo = token
+            ? `Present (length: ${token.length}, starts with ${token.substring(0, 10)}...)`
             : 'MISSING';
 
-        return NextResponse.json({ 
-            error: 'Vercel Blob Upload Failed', 
+        return NextResponse.json({
+            error: 'Vercel Blob Upload Failed',
             details: error.message || 'Unknown error',
             token_status: tokenInfo,
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
