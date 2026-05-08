@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { PageContainer } from '@/components/ui/PageContainer';
 import { SectionTitle } from '@/components/ui/SectionTitle';
+import { useEffect } from 'react';
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -43,8 +44,13 @@ export default function CheckoutPage() {
         }
     };
 
+    useEffect(() => {
+        if (items.length === 0) {
+            router.push('/cart');
+        }
+    }, [items, router]);
+
     if (items.length === 0) {
-        router.push('/cart');
         return null;
     }
 

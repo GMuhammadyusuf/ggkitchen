@@ -101,7 +101,23 @@ export default function AdminPage() {
             message.success('Image uploaded!');
         } catch (err: any) {
             onError(err);
-            message.error(err?.response?.data?.error || 'Upload failed');
+            console.error('FULL UPLOAD ERROR OBJECT:', err);
+            
+            const serverError = err?.response?.data;
+            const status = err?.response?.status;
+            
+            let displayMessage = 'Upload failed';
+            
+            if (serverError) {
+                displayMessage = `${serverError.error || 'Error'}: ${serverError.details || 'No details'} (Status: ${status})`;
+                if (serverError.token_status) {
+                    displayMessage += ` | Token: ${serverError.token_status}`;
+                }
+            } else if (err.message) {
+                displayMessage = `Upload failed: ${err.message}`;
+            }
+
+            message.error(displayMessage, 15);
         } finally {
             setUploading(false);
         }
